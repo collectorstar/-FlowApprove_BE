@@ -1,5 +1,6 @@
 package com.flowapprove.api.config;
 
+import com.flowapprove.infrastructure.logging.RequestTracingFilter;
 import com.flowapprove.infrastructure.tenant.TenantContextFilter;
 import java.nio.charset.StandardCharsets;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -20,7 +22,11 @@ public class SecurityConfig {
     private static final String SECRET = "flowapprove-local-dev-secret-flowapprove-local-dev";
 
     @Bean
-    SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, TenantContextFilter tenantContextFilter) throws Exception {
+    SecurityFilterChain apiSecurityFilterChain(
+            HttpSecurity http,
+            RequestTracingFilter requestTracingFilter,
+            TenantContextFilter tenantContextFilter
+    ) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -29,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/**").authenticated()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .addFilterBefore(requestTracingFilter, SecurityContextHolderFilter.class)
                 .addFilterAfter(tenantContextFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

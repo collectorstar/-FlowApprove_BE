@@ -1,6 +1,9 @@
 spring:
   application:
     name: flowapprove-api
+  output:
+    ansi:
+      enabled: ALWAYS
   datasource:
     url: ${FLOWAPPROVE_DB_URL:jdbc:postgresql://localhost:55432/flowapprove}
     driver-class-name: org.postgresql.Driver

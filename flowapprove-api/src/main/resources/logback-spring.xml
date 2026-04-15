@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="flowapprove-api" />
+    <property name="CONSOLE_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] [%property{appName}] [trace=%X{traceId:-na} tenant=%X{tenant:-na} user=%X{user:-anonymous}] %logger{36} - %msg%n" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${FLOWAPPROVE_LOG_LEVEL:-INFO}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <logger name="com.flowapprove" level="${FLOWAPPROVE_APP_LOG_LEVEL:-INFO}" />
+    <logger name="com.flowapprove.infrastructure.logging.RequestTracingFilter"
+            level="${FLOWAPPROVE_HTTP_LOG_LEVEL:-INFO}" />
+    <logger name="org.springframework.web" level="${FLOWAPPROVE_SPRING_WEB_LOG_LEVEL:-INFO}" />
+    <logger name="org.springframework.security" level="${FLOWAPPROVE_SECURITY_LOG_LEVEL:-INFO}" />
+    <logger name="org.springframework.jdbc.core" level="${FLOWAPPROVE_JDBC_LOG_LEVEL:-INFO}" />
+    <logger name="org.hibernate.SQL" level="${FLOWAPPROVE_SQL_LOG_LEVEL:-INFO}" />
+    <logger name="org.hibernate.orm.jdbc.bind" level="${FLOWAPPROVE_SQL_BIND_LOG_LEVEL:-INFO}" />
+</configuration>

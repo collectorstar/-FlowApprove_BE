@@ -20,6 +20,7 @@ import com.flowapprove.domain.request.WorkflowRequestRepository;
 import com.flowapprove.domain.workflow.WorkflowDefinitionRepository;
 import com.flowapprove.infrastructure.cqrs.SimpleCommandBus;
 import com.flowapprove.infrastructure.cqrs.SimpleQueryBus;
+import com.flowapprove.infrastructure.logging.RequestTracingFilter;
 import com.flowapprove.infrastructure.persistence.memory.InMemoryOrganizationRepository;
 import com.flowapprove.infrastructure.persistence.memory.InMemoryWorkflowDefinitionRepository;
 import com.flowapprove.infrastructure.persistence.memory.InMemoryWorkflowRequestRepository;
@@ -48,6 +49,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Configuration
 @EnableConfigurationProperties(RedisProperties.class)
 public class InfrastructureConfiguration {
+
+    @Bean
+    public RequestTracingFilter requestTracingFilter() {
+        return new RequestTracingFilter();
+    }
 
     @Bean
     public TenantSchemaResolver tenantSchemaResolver() {
