@@ -20,10 +20,15 @@ public class RedisCacheService {
     }
 
     public Optional<String> get(String key) {
+        return get(key, null);
+    }
+
+    public Optional<String> get(String key, Duration timeout) {
         return redisCommandExecutor.execute(
                 "get:" + key,
                 () -> Optional.ofNullable(stringRedisTemplate.opsForValue().get(key)),
-                Optional.empty()
+                Optional.empty(),
+                timeout
         );
     }
 
@@ -32,22 +37,36 @@ public class RedisCacheService {
     }
 
     public void put(String key, String value, Duration ttl) {
-        redisCommandExecutor.execute("set:" + key, () -> stringRedisTemplate.opsForValue().set(key, value, ttl));
+        put(key, value, ttl, null);
+    }
+
+    public void put(String key, String value, Duration ttl, Duration timeout) {
+        redisCommandExecutor.execute("set:" + key, () -> stringRedisTemplate.opsForValue().set(key, value, ttl), timeout);
     }
 
     public boolean delete(String key) {
+        return delete(key, null);
+    }
+
+    public boolean delete(String key, Duration timeout) {
         return redisCommandExecutor.execute(
                 "delete:" + key,
                 () -> Boolean.TRUE.equals(stringRedisTemplate.delete(key)),
-                false
+                false,
+                timeout
         );
     }
 
     public boolean tryAcquireLock(String key, String value, Duration ttl) {
+        return tryAcquireLock(key, value, ttl, null);
+    }
+
+    public boolean tryAcquireLock(String key, String value, Duration ttl, Duration timeout) {
         return redisCommandExecutor.execute(
                 "lock:" + key,
                 () -> Boolean.TRUE.equals(stringRedisTemplate.opsForValue().setIfAbsent(key, value, ttl)),
-                false
+                false,
+                timeout
         );
     }
 }

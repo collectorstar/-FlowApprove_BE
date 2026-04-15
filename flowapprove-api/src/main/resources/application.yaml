@@ -24,4 +24,4 @@ flowapprove:
     database: ${FLOWAPPROVE_REDIS_DATABASE:0}
     key-prefix: ${FLOWAPPROVE_REDIS_KEY_PREFIX:flowapprove}
     default-ttl: ${FLOWAPPROVE_REDIS_DEFAULT_TTL:10m}
-    command-timeout: ${FLOWAPPROVE_REDIS_COMMAND_TIMEOUT:2s}
+    command-timeout: ${FLOWAPPROVE_REDIS_COMMAND_TIMEOUT:500ms}

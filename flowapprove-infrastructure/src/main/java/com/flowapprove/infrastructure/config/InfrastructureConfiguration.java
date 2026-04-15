@@ -208,7 +208,11 @@ public class InfrastructureConfiguration {
 
     @Bean
     public RedisCommandExecutor redisCommandExecutor(RedisProperties redisProperties, RedisAvailabilityGuard redisAvailabilityGuard) {
-        return new FailOpenRedisCommandExecutor(redisProperties.isEnabled(), redisAvailabilityGuard);
+        return new FailOpenRedisCommandExecutor(
+                redisProperties.isEnabled(),
+                redisAvailabilityGuard,
+                redisProperties.getCommandTimeout()
+        );
     }
 
     @Bean
