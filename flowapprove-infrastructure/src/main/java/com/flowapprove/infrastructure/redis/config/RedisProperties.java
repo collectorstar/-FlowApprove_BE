@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class RedisProperties {
     private boolean enabled = true;
     private String host = "localhost";
-    private int port = 6379;
+    private int port = 56379;
     private String password;
     private int database = 0;
     private String keyPrefix = "flowapprove";

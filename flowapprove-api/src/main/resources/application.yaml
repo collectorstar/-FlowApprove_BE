@@ -2,10 +2,10 @@ spring:
   application:
     name: flowapprove-api
   datasource:
-    url: jdbc:h2:mem:flowapprove;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${FLOWAPPROVE_DB_URL:jdbc:postgresql://localhost:55432/flowapprove}
+    driver-class-name: org.postgresql.Driver
+    username: ${FLOWAPPROVE_DB_USERNAME:postgres}
+    password: ${FLOWAPPROVE_DB_PASSWORD:postgres}
   flyway:
     enabled: false
 
@@ -19,7 +19,7 @@ flowapprove:
   redis:
     enabled: true
     host: ${FLOWAPPROVE_REDIS_HOST:localhost}
-    port: ${FLOWAPPROVE_REDIS_PORT:6379}
+    port: ${FLOWAPPROVE_REDIS_PORT:56379}
     password: ${FLOWAPPROVE_REDIS_PASSWORD:}
     database: ${FLOWAPPROVE_REDIS_DATABASE:0}
     key-prefix: ${FLOWAPPROVE_REDIS_KEY_PREFIX:flowapprove}
