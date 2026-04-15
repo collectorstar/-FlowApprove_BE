@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: flowapprove-db-migrator
+  datasource:
+    url: ${FLOWAPPROVE_DB_URL:jdbc:postgresql://localhost:5432/flowapprove}
+    username: ${FLOWAPPROVE_DB_USERNAME:postgres}
+    password: ${FLOWAPPROVE_DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+flowapprove:
+  dbmigrator:
+    enabled: true
+    action: ${FLOWAPPROVE_DB_ACTION:migrate}
+    tenant: ${FLOWAPPROVE_DB_TENANT:all}

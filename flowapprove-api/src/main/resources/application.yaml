@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: flowapprove-api
+  datasource:
+    url: jdbc:h2:mem:flowapprove;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  flyway:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+flowapprove:
+  redis:
+    enabled: true
+    host: ${FLOWAPPROVE_REDIS_HOST:localhost}
+    port: ${FLOWAPPROVE_REDIS_PORT:6379}
+    password: ${FLOWAPPROVE_REDIS_PASSWORD:}
+    database: ${FLOWAPPROVE_REDIS_DATABASE:0}
+    key-prefix: ${FLOWAPPROVE_REDIS_KEY_PREFIX:flowapprove}
+    default-ttl: ${FLOWAPPROVE_REDIS_DEFAULT_TTL:10m}
+    command-timeout: ${FLOWAPPROVE_REDIS_COMMAND_TIMEOUT:2s}
